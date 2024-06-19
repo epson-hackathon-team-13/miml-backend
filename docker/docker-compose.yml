@@ -1,28 +1,40 @@
 version: '3'
-
 services:
-  db: #컨테이너 이름
-    image: mariadb
+  app:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: always
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
     environment:
-      - MARIADB_ROOT_PASSWORD=root 
-    ports:
-      - "3306:3306"
-
-  redis:
-    container_name: redis
-    
-    image: redis
-    ports:
-      - "6379:6379"
-
-  backend:
-    build:
-      context: .
-      dockerfile: ./compose/springboot/Dockerfile
-    ports:
-      - "8080:8080"
+      DB_MYSQL_HOST: "db"
+      DB_MYSQL_PORT: 3306
+      DB_MYSQL_USER: "npm"
+      DB_MYSQL_PASSWORD: "npm"
+      DB_MYSQL_NAME: "npm"
     volumes:
-      - ./:/app/
+      - ./data:/app/data
+      - ./letsencrypt:/etc/letsencrypt
+      - ./var:/app/var
     depends_on:
       - db
-      - redis
+    networks:
+      - npm_network
+
+  db:
+    image: 'jc21/mariadb-aria:latest'
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 'npm'
+      MYSQL_DATABASE: 'npm'
+      MYSQL_USER: 'npm'
+      MYSQL_PASSWORD: 'npm'
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    networks:
+      - npm_network
+
+networks:
+  npm_network:
+    driver: bridge
