@@ -1,11 +1,13 @@
 package com.miml.security;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.miml.user.repository.UserRepository;
 
+@Configuration
 public class CustomUserDetailsService implements UserDetailsService {
 
 	private final UserRepository userRepository;

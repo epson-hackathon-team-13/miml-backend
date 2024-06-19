@@ -1,117 +1,42 @@
 server:
-  port: 9000
+  port: 9000 # 내장 톰캣 포트번호
   servlet:
     context-path: /
     session:
       cookie:
-        name: ASID    
-  error:
-    whitelabel:
-      enabled: false
-    include-stacktrace: never
-  tomcat:
-    threads:
-      #default 200
-      max: 100
+        name: ASID
+
 spring:
+
+  # allow method
   mvc:
     hiddenmethod:
       filter:
         enabled: true
-#  config:
-#    import: vault://
-#  cloud:
-#    vault:
-#      config.lifecycle:
-#        enabled: true
-#        min-renewal: 10s
-#        expiry-threshold: 5m
-##        lease-endpoints: SysLeases
-#      uri: http://vault-active.vault.svc.cluster.local:8200
-#      host: vault-active
-#      port: 8200
-#      scheme: http
-#      connection-timeout: 5000
-#      read-timeout: 15000
-#      
-#      authentication: TOKEN
-#      #apps01
-#      token: ${VLT_TOKEN:}
-#      kv:
-#        enabled: true
-#        backend: kv
-#        profile-separator: '/'
-#        default-context: apps01
-#        application-name: apps01
-#        profiles: prd
-#      database:
-#        enabled: true
-#        role: apps11-25006
-#        backend: database
-#        username-property: spring.datasource.username
-#        password-property: spring.datasource.password
+
+  # Mariadb Database 설정
   datasource:
+    url: jdbc:mariadb://database-1.cf0aow4qguhl.ap-northeast-2.rds.amazonaws.com:3306/ballagain?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: admin
+    password: 11aaAA!!
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://mariadb.apps11.svc.cluster.local:3306/app_database?characterEncoding=UTF-8
-    username:
-    password:
-    hikari:
-      pool-name: hikari-primary
-      maximum-pool-size: 10
-      minimum-idle: 5
-      connection-timeout: 5000
-      validation-timeout: 2000
-      idle-timeout: 600000
-      max-lifetime: 1800000
+
+  # JPA 설정
   jpa:
-    open-in-view: false
-    generate-ddl: true
-    show-sql: true
-#    hibernate:
-      #ddl-auto: update
-      #validate: 엔티티와 테이블이 정상 매핑되었는지만 확인 , 
-      #create: 기존테이블 삭제 후 다시 생성 (DROP + CREATE)
-      #update: 변경분만 반영
+    hibernate:
+      ddl-auto: update
     properties:
       hibernate:
-        '[format_sql]': false
-        '[show_sql]': false
-#  security:
-
-springdoc:
-  api-docs:
-    path: /docs
-  swagger-ui:
-    path: /swagger-ui
-    display-request-duration: true
-    csrf:
-      enabled: true
-  cache:
-    disabled: true
-
-logging:
-  level:
-    root: debug
-    '[org.springframework]': info
-    '[org.springframework.beans]': info
-    '[org.springframework.data]': info
-    '[org.springframework.boot.autoconfigure]': info
-    '[org.springframework.session.web]': info
-    '[org.springframework.security.jackson2]': info
-    '[org.hibernate]': info       
-    '[org.apache]': info
-    '[io.lettuce]': info
-    '[io.netty]': info
-    '[sun.rmi]': info
-    '[javax.management]': info
-    '[javax.activation]': info    
-    '[com.zaxxer]': info
-    '[org.thymeleaf]': info
-    '[com.narui.nauth]': debug
-    '[com.sun.mail.smtp]': info
-    '[javax.mail]': info
-    '[org.mariadb.jdbc]': info
-    '[angus.activation]': info
-    '[jakarta.activation]': info
-    '[io.swagger]': info
-    '[jdk.internal.httpclient.debug]': off
+        dialect: org.hibernate.dialect.MariaDBDialect
+  
+  #swagger
+  springdoc:
+    api-docs:
+      path: /docs
+    swagger-ui:
+      path: /swagger-ui
+      display-request-duration: true
+      csrf:
+        enabled: true
+    cache:
+      disabled: true

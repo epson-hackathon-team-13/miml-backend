@@ -1,13 +1,14 @@
 package com.miml.security;
 
-import com.miml.security.entity.UserEntity;
+import java.io.Serial;
+import java.util.Collection;
+import java.util.stream.Collectors;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serial;
-import java.util.Collection;
-import java.util.stream.Collectors;
+import com.miml.security.entity.UserEntity;
 
 public class CustomUserDetails implements UserDetails {
 

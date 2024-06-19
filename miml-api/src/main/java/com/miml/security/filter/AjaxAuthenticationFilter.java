@@ -19,14 +19,14 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class AjaxAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 	
-	@Value("${login-url}")
-	private static String loginUrl;
+//	@Value("${login-url}")
+	private static final String URL = "/api/login";
 	
     private ObjectMapper objectMapper = new ObjectMapper();
     
     public AjaxAuthenticationFilter() {
     	// url과 일치하면 필더 동작
-        super(new AntPathRequestMatcher(loginUrl));
+        super(new AntPathRequestMatcher(URL));
     }
     
     @Override
