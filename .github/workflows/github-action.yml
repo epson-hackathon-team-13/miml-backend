@@ -59,7 +59,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.BALLAGAIN_INSTATNCE_SSH_KEY }}
           envs: GITHUB_SHA
-        script: |
+        command: |
           sudo docker rm -f $(docker ps -qa)
           sudo docker pull ${{ secrets.DOCKER_REPO }}/directors-dev
           docker-compose up -d
