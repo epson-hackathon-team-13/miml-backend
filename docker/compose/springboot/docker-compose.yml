@@ -1,0 +1,95 @@
+version: '3'
+
+services:
+  
+  miml-api:
+    image: popup0221/ballagain-docker-repository
+    container_name: miml-api
+    restart: always
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+
+#   nginx-proxy-manager:
+#     image: 'jc21/nginx-proxy-manager:latest'
+#     container_name: nginx-proxy-manager
+#     restart: always
+#     ports:
+#       - '80:80'
+#       - '81:81'
+#       - '443:443'
+#     environment:
+#       DB_MYSQL_HOST: "db"
+#       DB_MYSQL_PORT: 3306
+#       DB_MYSQL_USER: "npm"
+#       DB_MYSQL_PASSWORD: "npm"
+#       DB_MYSQL_NAME: "npm"
+#     volumes:
+#       - ./docker/nginx-proxy-manager/data:/app/data
+#       - ./docker/nginx-proxy-manager/letsencrypt:/etc/letsencrypt
+#       - ./docker/nginx-proxy-manager/var:/app/var
+#     depends_on:
+#       - db
+#     networks:
+#       - npm_network
+
+#   nginx-proxy-manager-db:
+#     image: 'jc21/mariadb-aria:latest'
+#     container_name: nginx-proxy-manager-db
+#     restart: always
+#     environment:
+#       MYSQL_ROOT_PASSWORD: 'npm'
+#       MYSQL_DATABASE: 'npm'
+#       MYSQL_USER: 'npm'
+#       MYSQL_PASSWORD: 'npm'
+#       TZ: Asia/Seoul
+#     volumes:
+#       - ./docker/nginx-proxy-manager/data/mysql:/var/lib/mysql
+#     networks:
+#       - npm_network
+
+#   vault:
+#     image: hashicorp/vault:latest
+#     environment:
+#       VAULT_DEV_ROOT_TOKEN_ID: testtoken
+#     ports:
+#       - 8200:8200
+#     privileged: true
+#     networks:
+#       - vault_network
+
+#   vault-enterprise:
+#     image: hashicorp/vault-enterprise:latest
+#     environment:
+#       VAULT_DEV_ROOT_TOKEN_ID: testtoken
+#       VAULT_LICENSE: ${VAULT_LICENSE_CI}
+#     ports:
+#       - 8200:8200
+#     privileged: true
+#     networks:
+#       - vault_network
+
+#   vault-tls:
+#     image: hashicorp/vault:latest
+#     hostname: vault-tls
+#     environment:
+#       VAULT_CAPATH: /etc/vault/ca.crt
+#     ports:
+#       - 8200:8200
+#     privileged: true
+#     volumes:
+#       - ${PWD}/docker/vault/integrationTests/e2e-tls/configs:/etc/vault
+#       - vault-data:/var/lib/vault:rw
+#     entrypoint: vault server -config=/etc/vault/config.hcl
+#     networks:
+#       - vault_network
+
+# networks:
+#   npm_network:
+#     driver: bridge
+#   vault_network:
+#     driver: bridge
+
+# volumes:
+#   vault-data:
