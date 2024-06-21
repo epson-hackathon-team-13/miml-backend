@@ -34,8 +34,8 @@ jobs:
       # dockerfile을 통해 이미지를 빌드하고, 이를 docker repo로 push 합니다.
       # 이 때 사용되는 ${{ secrets.DOCKER_REPO }}/directors-dev 가 위에서 만든 도커 repository 입니다.
       - name: Docker build & push to docker repo
-        run: |
-          echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+      run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -f Dockerfile -t ${{ secrets.DOCKER_REPO }}/directors-dev .
           docker push ${{ secrets.DOCKER_REPO }}/directors-dev
 
