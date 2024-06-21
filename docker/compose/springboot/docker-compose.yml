@@ -19,7 +19,7 @@ services:
       - ./letsencrypt:/etc/letsencrypt
       - ./var:/app/var
     depends_on:
-      - db
+      - nginx-proxy-manager-db
     networks:
       - npm_network
 
