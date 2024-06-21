@@ -1,5 +1,5 @@
 server:
-  port: 9000 # 내장 톰캣 포트번호
+  port: 8080 # 내장 톰캣 포트번호
   servlet:
     context-path: /
     session:
@@ -7,7 +7,6 @@ server:
         name: ASID
 
 spring:
-
   # allow method
   mvc:
     hiddenmethod:
@@ -28,7 +27,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MariaDBDialect
-  
+
   #swagger
   springdoc:
     api-docs:

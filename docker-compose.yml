@@ -14,9 +14,8 @@ services:
       DB_MYSQL_PASSWORD: "npm"
       DB_MYSQL_NAME: "npm"
     volumes:
-      - ./data:/app/data
-      - ./letsencrypt:/etc/letsencrypt
-      - ./var:/app/var
+      - /home/me/docker/npm/data:/data
+      - /home/me/docker/npm/letsencrypt:/etc/letsencrypt
     depends_on:
       - nginx-proxy-manager-db
     networks:
@@ -33,7 +32,7 @@ services:
       MYSQL_PASSWORD: 'npm'
       TZ: Asia/Seoul
     volumes:
-      - ./data/mysql:/var/lib/mysql
+      - /home/me/docker/npm/mysql:/var/lib/mysql
     networks:
       - npm_network
 
