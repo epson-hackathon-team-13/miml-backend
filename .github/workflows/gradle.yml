@@ -23,7 +23,7 @@ jobs:
     
     - name: make application.yml
       run: |
-        cd ../miml-api/./src/main/resources
+        cd ./src/main/resources
         touch ./application.yml
         echo "${{ secrets.PROPERTIES }}" > ./application.yml
 
