@@ -33,6 +33,10 @@ services:
       MYSQL_USER: 'npm'
       MYSQL_PASSWORD: 'npm'
       TZ: Asia/Seoul
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    networks:
+      - npm_network
 
   backend:
     container_name: backend
@@ -41,3 +45,7 @@ services:
       - 8080
     ports:
       - 8080:8080
+
+networks:
+  npm_network:
+    driver: bridge

@@ -52,6 +52,6 @@ jobs:
           envs: GITHUB_SHA
           script: |
             sudo docker rm -f $(docker ps -qa)
-            sudo docker pull popup0221/${{ secrets.DOCKER_REPO }}:latest
+            docker pull popup0221/${{ secrets.DOCKER_REPO }}:latest
             docker-compose up -d
             docker image prune -f
