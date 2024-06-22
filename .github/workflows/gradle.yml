@@ -53,5 +53,6 @@ jobs:
           script: |
             sudo docker rm -f $(docker ps -qa)
             docker pull popup0221/${{ secrets.DOCKER_REPO }}:latest
+            cd miml-backend
             docker-compose up -d
             docker image prune -f
