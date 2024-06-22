@@ -1,4 +1,3 @@
 FROM openjdk:17
-ARG JAR_FILE=*.jar
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+COPY ./build/libs/miml-backend-0.0.1-SNAPSHOT.jar
+ENTRYPOINT ["java","-jar","app.jar"]
