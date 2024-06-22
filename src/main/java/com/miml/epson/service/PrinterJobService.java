@@ -8,7 +8,7 @@ import com.miml.epson.entity.PrinterJob;
 import com.miml.epson.repository.PrinterJobRepository;
 
 @Service
-public class PrinterService {
+public class PrinterJobService {
 
     @Autowired
     private PrinterJobRepository printerJobRepository;

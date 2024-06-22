@@ -1,5 +1,8 @@
 package com.miml.epson.api.endPoint;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+
 import com.miml.epson.api.properties.PrintingProperties;
 
 public class EpsonApiEndPoint {
@@ -60,6 +63,12 @@ public class EpsonApiEndPoint {
 		 String requestUrl = "https://" + printingProperties.getHostName() + "/" + requestPath;
 		 
 		 return requestUrl;
+	 }
+	 
+	 public String getAuth() {
+		 String clientId = printingProperties.getClientId();
+		 String secret = printingProperties.getSecret();
+		 return Base64.getEncoder().encodeToString((clientId + ":" + secret).getBytes(StandardCharsets.UTF_8));
 	 }
 
 }

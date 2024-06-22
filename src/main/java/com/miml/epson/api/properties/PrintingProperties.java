@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter
 @ConfigurationProperties(prefix = "epson")
 public class PrintingProperties {
 

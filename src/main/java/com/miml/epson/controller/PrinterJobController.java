@@ -9,22 +9,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.miml.epson.entity.PrinterJob;
 import com.miml.epson.entity.TokenInfo;
-import com.miml.epson.service.PrinterService;
+import com.miml.epson.service.PrinterJobService;
 import com.miml.epson.service.TokenService;
 
 @RestController
 @RequestMapping("/api/printer")
-public class PrinterController {
+public class PrinterJobController {
 
     @Autowired
     private TokenService tokenService;
 
     @Autowired
-    private PrinterService printerService;
+    private PrinterJobService printerService;
 
     @PostMapping("/authenticate")
-    public TokenInfo authenticate(@RequestParam String clientId, @RequestParam String clientSecret, @RequestParam String deviceId) {
-        return tokenService.authenticate(clientId, clientSecret, deviceId);
+    public TokenInfo authenticate(@RequestParam String deviceId) {
+        return tokenService.authenticate(deviceId);
     }
 
     @PostMapping("/createJob")

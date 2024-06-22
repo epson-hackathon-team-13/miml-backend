@@ -1,4 +1,4 @@
-package com.miml.config;
+package com.miml.epson.api.client;
 
 import java.time.Duration;
 
@@ -13,10 +13,10 @@ import reactor.netty.http.client.HttpClient;
 import reactor.netty.resources.ConnectionProvider;
 
 @Configuration
-public class WebClientConfig {
-
+public class EpsonClientConfig {
 	DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory();
 
+	
 	HttpClient httpClient = HttpClient.create().option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000); // 10초
 
 	@Bean
