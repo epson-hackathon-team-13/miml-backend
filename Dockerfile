@@ -1,4 +1,3 @@
 FROM openjdk:17
-WORKDIR /
-COPY ./build/libs/miml.jar app.jar
+COPY ./build/libs/miml-0.0.1-SNAPSHOT.jar /build/libs/miml-0.0.1-SNAPSHOT.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
