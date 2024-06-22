@@ -39,7 +39,7 @@ services:
 
   backend:
     container_name: backend
-    image: popup0221/ballagain-docker-repository
+    image: popup0221/ballagain-docker-repository:latest
     expose:
       - 8080
     ports:
