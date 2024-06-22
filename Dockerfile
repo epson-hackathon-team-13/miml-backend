@@ -1,3 +1,4 @@
 FROM openjdk:17
-COPY ./build/libs/miml_backend.jar app.jar
+ARG JAR_FILE=*.jar
+COPY ${JAR_FILE} app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
