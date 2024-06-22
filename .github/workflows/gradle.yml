@@ -47,7 +47,7 @@ jobs:
         id: deploy
         with:
           host: ${{ secrets.BALLAGAIN_INSTANCE_HOST }} # EC2 인스턴스 퍼블릭 DNS
-          username: ec2-user # 인스턴스 시작 시 사용되는 AMI에 정의된 사용자 이름
+          username: ubuntu # 인스턴스 시작 시 사용되는 AMI에 정의된 사용자 이름
           key: ${{ secrets.BALLAGAIN_INSTATNCE_SSH_KEY }} # keypair ssh pem
           envs: GITHUB_SHA
           script: |
