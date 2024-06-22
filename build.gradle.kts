@@ -47,6 +47,9 @@ dependencies {
 	// Spring WebFlux
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 
+	// configuration-processor
+	implementation("org.springframework.boot:spring-boot-configuration-processor")
+
 	// Test
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")

@@ -11,9 +11,7 @@ public class ApiResponseEmptyBody {
 
     private static ApiResponseEmptyBody emptyBody;
 
-    private ApiResponseEmptyBody() {
-
-    }
+    private ApiResponseEmptyBody() {}
 
     public static ApiResponseEmptyBody getInstance() {
         if (emptyBody == null) {
