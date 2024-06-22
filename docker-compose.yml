@@ -10,14 +10,13 @@ services:
     environment:
       TZ: "Asia/Seoul"
 
-  nginx-proxy-manager:
+  app:
     image: 'jc21/nginx-proxy-manager:latest'
-    container_name: nginx-proxy-manager
-    restart: always
+    restart: unless-stopped
     ports:
-      - '80:80'
-      - '81:81'
-      - '443:443'
+      - '80:80' # Public HTTP Port
+      - '443:443' # Public HTTPS Port
+      - '81:81' # Admin Web Port
     environment:
       DB_MYSQL_HOST: "db"
       DB_MYSQL_PORT: 3306
@@ -29,25 +28,16 @@ services:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
     depends_on:
-      - nginx-proxy-manager-db
-    networks:
-      - npm_network
+      - db
 
-  nginx-proxy-manager-db:
+  db:
     image: 'jc21/mariadb-aria:latest'
-    container_name: nginx-proxy-manager-db
-    restart: always
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: 'npm'
       MYSQL_DATABASE: 'npm'
       MYSQL_USER: 'npm'
       MYSQL_PASSWORD: 'npm'
-      TZ: Asia/Seoul
+      
     volumes:
       - ./mysql:/var/lib/mysql
-    networks:
-      - npm_network
-
-networks:
-  npm_network:
-    driver: bridge
