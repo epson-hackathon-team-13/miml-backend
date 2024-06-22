@@ -1,5 +1,15 @@
 services:
 
+  was:
+    container_name: was
+    image: popup0221/ballagain-docker-repository:latest
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+    environment:
+      TZ: "Asia/Seoul"
+
   nginx-proxy-manager:
     image: 'jc21/nginx-proxy-manager:latest'
     container_name: nginx-proxy-manager
@@ -14,9 +24,10 @@ services:
       DB_MYSQL_USER: "npm"
       DB_MYSQL_PASSWORD: "npm"
       DB_MYSQL_NAME: "npm"
+      TZ: "Asia/Seoul"
     volumes:
-      - /home/me/docker/npm/data:/data
-      - /home/me/docker/npm/letsencrypt:/etc/letsencrypt
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
     depends_on:
       - nginx-proxy-manager-db
     networks:
@@ -33,17 +44,9 @@ services:
       MYSQL_PASSWORD: 'npm'
       TZ: Asia/Seoul
     volumes:
-      - /home/me/docker/npm/mysql:/var/lib/mysql
+      - ./mysql:/var/lib/mysql
     networks:
       - npm_network
-
-  backend:
-    container_name: backend
-    image: popup0221/ballagain-docker-repository:latest
-    expose:
-      - 8080
-    ports:
-      - 8080:8080
 
 networks:
   npm_network:
