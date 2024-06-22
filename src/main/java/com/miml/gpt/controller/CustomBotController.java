@@ -19,10 +19,8 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/bot")
 public class CustomBotController {
 
-//    @Value("${openai.model}")
     private String model = "gpt-3.5-turbo";
 
-//    @Value("${openai.api.url}")
     private String apiURL = "https://api.openai.com/v1";
 
     private final WebClient webClient;

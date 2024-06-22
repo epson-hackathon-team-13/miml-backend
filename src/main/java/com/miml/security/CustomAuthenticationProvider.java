@@ -14,8 +14,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     private final CustomUserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
-
-    
     
     public CustomAuthenticationProvider(
 			CustomUserDetailsService userDetailsService, 

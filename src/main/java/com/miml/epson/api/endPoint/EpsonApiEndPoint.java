@@ -3,8 +3,11 @@ package com.miml.epson.api.endPoint;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
+import org.springframework.stereotype.Component;
+
 import com.miml.epson.api.properties.PrintingProperties;
 
+@Component
 public class EpsonApiEndPoint {
 	
 	private final PrintingProperties printingProperties;

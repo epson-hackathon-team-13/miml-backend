@@ -19,7 +19,7 @@ public class EpsonClientConfig {
 	
 	HttpClient httpClient = HttpClient.create().option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000); // 10초
 
-	@Bean
+//	@Bean
 	public WebClient webClient() {
 		factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY);
 		return WebClient.builder().uriBuilderFactory(factory)
@@ -27,7 +27,7 @@ public class EpsonClientConfig {
 				.clientConnector(new ReactorClientHttpConnector(httpClient)).build();
 	}
 
-	@Bean
+//	@Bean
 	public ConnectionProvider connectionProvider() {
 		return ConnectionProvider.builder("http-pool").maxConnections(100).pendingAcquireTimeout(Duration.ofMillis(0))
 				.pendingAcquireMaxCount(-1).maxIdleTime(Duration.ofMillis(1000L)).build();

@@ -15,7 +15,7 @@ public class OpenAiConfig {
 //    @Value("${openai.api.key}")
     private String openAiKey = "sk-proj-8w25v2T3pPFYWYf1Xar7T3BlbkFJVDaFHh8GhiwMDujg9q0s";
 
-    @Bean
+//    @Bean
     public WebClient webClient() {
         HttpClient httpClient = HttpClient.create().wiretap(true); // 옵션 추가 가능 (로그, 타임아웃 등)
         ClientHttpConnector connector = new ReactorClientHttpConnector(httpClient);
