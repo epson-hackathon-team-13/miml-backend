@@ -1,4 +1,4 @@
 FROM openjdk:17
-ARG JAR_FILE=*.jar
-COPY ${JAR_FILE} app.jar
+WORKDIR /
+COPY ./build/libs/miml.jar app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
