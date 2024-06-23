@@ -51,15 +51,18 @@ dependencies {
 	// configuration-processor
 	implementation("org.springframework.boot:spring-boot-configuration-processor")
 
-	// Test
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("org.springframework.security:spring-security-test")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	// google-cloud-vision - ocr
+	implementation("com.google.cloud:google-cloud-vision:3.41.0")
 
 	// JSON Web Token (JWT) dependencies
 	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5") // for Jackson JSON processor
+
+	// Test
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.springframework.security:spring-security-test")
+	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 dependencyManagement {
