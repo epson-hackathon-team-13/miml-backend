@@ -5,17 +5,17 @@ import org.springframework.stereotype.Service;
 
 import com.miml.epson.api.client.EpsonApiClient;
 import com.miml.epson.api.endPoint.EpsonApiEndPoint;
-import com.miml.epson.repository.TokenInfoRepository;
+import com.miml.epson.repository.TokenRepository;
 
 @Service
 public class TokenService {
 
-    private final TokenInfoRepository tokenInfoRepository;
+    private final TokenRepository tokenInfoRepository;
     private final EpsonApiClient epsonApiClient;
     private final EpsonApiEndPoint epsonApiEndPoint;
 
 	public TokenService(
-			TokenInfoRepository tokenInfoRepository, 
+			TokenRepository tokenInfoRepository, 
 			EpsonApiClient epsonApiClient,
 			EpsonApiEndPoint epsonApiEndPoint
 			) {

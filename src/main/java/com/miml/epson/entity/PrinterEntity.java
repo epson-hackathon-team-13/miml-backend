@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-public class PrinterJob {
+public class PrinterEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class PrinterJob {
     private String status;
 
     @Builder
-	public PrinterJob(Long id, String jobId, String uploadUri, String fileName, String status) {
+	public PrinterEntity(Long id, String jobId, String uploadUri, String fileName, String status) {
 		this.id = id;
 		this.jobId = jobId;
 		this.uploadUri = uploadUri;

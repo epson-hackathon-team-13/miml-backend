@@ -10,14 +10,16 @@ import com.miml.music.entity.MusicEntity;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class MusicDto {
 	
-	public MusicDto() {}
-
+	private Long id;
+	
     private Gender gender;
 
     private String artist;
@@ -33,10 +35,15 @@ public class MusicDto {
     private List<String> startTime;
 
     private String lyricKrPro;
+    
+	private String youtubeId;
 
-    @Builder
-	public MusicDto(Gender gender, String artist, String title, String imageUrl, String lyricKr,
-			String lyricEn, List<String> startTime, String lyricKrPro) {
+	private String startAt;
+
+	@Builder
+	public MusicDto(Long id, Gender gender, String artist, String title, String imageUrl, String lyricKr, String lyricEn,
+			List<String> startTime, String lyricKrPro, String youtubeId, String startAt) {
+		this.id = id;
 		this.gender = gender;
 		this.artist = artist;
 		this.title = title;
@@ -45,7 +52,9 @@ public class MusicDto {
 		this.lyricEn = lyricEn;
 		this.startTime = startTime;
 		this.lyricKrPro = lyricKrPro;
-	}
+		this.youtubeId = youtubeId;
+		this.startAt = startAt;
+	} 
     
     public String stringArrToString(List<String> strArr) {
     	return strArr.stream()
@@ -64,7 +73,9 @@ public class MusicDto {
                  .lyricEn(this.lyricEn)
                  .startTime(JsonUtils.longListToJson(this.startTime))
                  .lyricKrPro(this.lyricKrPro)
+                 .youtubeId(youtubeId)
+                 .startAt(startAt)
                  .build();
-    } 
+    }
 
 }

@@ -1,6 +1,5 @@
 package com.miml.music.entity;
 
-
 import java.io.Serial;
 import java.util.Arrays;
 import java.util.List;
@@ -27,50 +26,58 @@ import lombok.Getter;
 @Entity
 @Table(name = "music")
 public class MusicEntity {
-	
-    @Serial
-    private static final long serialVersionUID = 1L;
 
-	public MusicEntity() {}
-	
+	@Serial
+	private static final long serialVersionUID = 1L;
+
+	public MusicEntity() {
+	}
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "music_seq")
-    private Long id;
-	
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "music_seq")
+	private Long id;
 
-    @NotNull
-    @Size(max = 50)
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private Gender gender;
+
+	@NotNull
+	@Size(max = 50)
 	private String artist;
-	
-    @NotNull
-    @Size(max = 50)
+
+	@NotNull
+	@Size(max = 50)
 	private String title;
-	
-    @NotNull
-    @Column(length = 4096)
+
+	@NotNull
+	@Column(length = 4096)
 	private String lyricKr;
-	
-    @NotNull
-    @Column(length = 4096)
+
+	@NotNull
+	@Column(length = 4096)
 	private String lyricEn;
-	
-    @NotNull
-    @Column(length = 1024)
+
+	@NotNull
+	@Column(length = 1024)
 	private String startTime;
-	
-    @Column(length = 4096)
+
+	@Column(length = 4096)
 	private String lyricKrPro;
-	
-    @Size(max = 50)
+
+	@Size(max = 50)
 	private String imageUrl;
 
-    @Builder
+	@Size(max = 50)
+	private String youtubeId;
+
+	@Size(max = 50)
+	private String startAt;
+
+	@Builder
 	public MusicEntity(Long id, @NotNull Gender gender, @NotNull @Size(max = 50) String artist,
 			@NotNull @Size(max = 50) String title, @NotNull String lyricKr, @NotNull String lyricEn,
-			@NotNull String startTime, String lyricKrPro, @Size(max = 50) String imageUrl) {
+			@NotNull String startTime, String lyricKrPro, @Size(max = 50) String imageUrl,
+			@Size(max = 50) String youtubeId, @Size(max = 50) String startAt) {
 		this.id = id;
 		this.gender = gender;
 		this.artist = artist;
@@ -80,6 +87,8 @@ public class MusicEntity {
 		this.startTime = startTime;
 		this.lyricKrPro = lyricKrPro;
 		this.imageUrl = imageUrl;
+		this.youtubeId = youtubeId;
+		this.startAt = startAt;
 	}
 
 	public void setGender(Gender gender) {
@@ -94,7 +103,7 @@ public class MusicEntity {
 		this.title = title;
 	}
 
-	public void setLyrickr(String lyricKr) {
+	public void setLyricKr(String lyricKr) {
 		this.lyricKr = lyricKr;
 	}
 
@@ -113,13 +122,23 @@ public class MusicEntity {
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
+
+	public void setYoutubeId(String youtubeId) {
+		this.youtubeId = youtubeId;
+	}
+
+	public void setStartAt(String startAt) {
+		this.startAt = startAt;
+	}
 	
+	// string -> List<String> : split("\n")
 	public List<String> stringToStringArr(String str) {
 		return Arrays.asList(str.split("\n"));
 	}
 	
 	public MusicDto toDto() throws JsonProcessingException {
 		return MusicDto.builder()
+				.id(this.id)
 				.gender(this.gender)
                 .artist(this.artist)
                 .title(this.title)
@@ -128,8 +147,9 @@ public class MusicEntity {
                 .lyricEn(this.lyricEn)
                 .startTime(JsonUtils.jsonToLongList(this.startTime))
                 .lyricKrPro(this.lyricKrPro)
+                .youtubeId(youtubeId)
+                .startAt(startAt)
 				.build();
 	}
 
 }
-

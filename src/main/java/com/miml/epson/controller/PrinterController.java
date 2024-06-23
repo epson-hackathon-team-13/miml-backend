@@ -1,32 +1,38 @@
 package com.miml.epson.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.miml.epson.entity.PrinterJob;
-import com.miml.epson.entity.TokenInfo;
-import com.miml.epson.service.PrinterJobService;
+import com.miml.common.api.ApiResponse;
+import com.miml.common.api.ApiResponseEmptyBody;
+import com.miml.epson.dto.AuthenticationDto;
+import com.miml.epson.entity.PrinterEntity;
+import com.miml.epson.service.PrinterService;
 
 @RestController
 @RequestMapping("/api/printer")
-public class PrinterJobController {
+public class PrinterController {
 	
-    private PrinterJobService printerService;
+    private PrinterService printerService;
 
-    public PrinterJobController(PrinterJobService printerService) {
+    public PrinterController(PrinterService printerService) {
 		this.printerService = printerService;
 	}
 
 	@PostMapping("/authenticate")
-    public TokenInfo authenticate(@RequestParam String deviceId) {
-        return printerService.authenticate(deviceId);
-    }
+    public ResponseEntity<ApiResponse<ApiResponseEmptyBody>> authenticate(@RequestBody AuthenticationDto authenticationDto) {
+		
+		printerService.authenticate(authenticationDto);
+		
+		return ApiResponse.toOkResponseEntity();
+    };
 
     @PostMapping("/createJob")
-    public PrinterJob createPrintJob(@RequestParam String deviceId, @RequestParam String accessToken) {
+    public PrinterEntity createPrintJob(@RequestParam String deviceId, @RequestParam String accessToken) {
         return printerService.createPrintJob(deviceId, accessToken);
     }
 

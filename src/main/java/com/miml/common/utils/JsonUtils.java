@@ -28,6 +28,6 @@ public class JsonUtils {
 
     // JSON String -> List<Long>
     public static List<String> jsonToLongList(String json) throws JsonProcessingException {
-        return Arrays.asList(json.split(","));
+        return Arrays.asList(json.split(", "));
     }
 }

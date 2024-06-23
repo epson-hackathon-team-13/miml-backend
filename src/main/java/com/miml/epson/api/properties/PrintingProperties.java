@@ -3,40 +3,37 @@ package com.miml.epson.api.properties;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties(prefix = "epson")
+//@ConfigurationProperties(prefix = "epson")
 public class PrintingProperties {
 
-	private String clientId;
-	private String secret;
-	private String hostName;
+	private final String clientId = "2cd19d92061a453f9db4c66c48756a1f";
+	private final String secret = "oX9LLlXcBwwJyhYebL48oTpsxhUgq2JyqgKpnGx5XelcO3SLQZbIQUVLxxP8UTT0";
+	private final String hostName = "api.epsonconnect.com";
 
+	
+//	@ConstructorBinding
+//	public PrintingProperties(String clientId, String secret, String hostName) {
+//		this.clientId = clientId;
+//		this.secret = secret;
+//		this.hostName = hostName;
+//	}
+	
 	public String getClientId() {
 		return clientId;
 	}
 
+
 	public String getSecret() {
 		return secret;
-	}
+	}
 
 	public String getHostName() {
 		return hostName;
 	}
 
-	public void setClientId(String clientId) {
-		this.clientId = clientId;
-	}
-
-	public void setSecret(String secret) {
-		this.secret = secret;
-	}
-
-	public void setHostName(String hostName) {
-		this.hostName = hostName;
-	}
 
 	public String getAuth() {
 		String clientId = getClientId();
