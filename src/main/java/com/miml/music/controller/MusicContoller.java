@@ -1,5 +1,7 @@
 package com.miml.music.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +27,12 @@ public class MusicContoller {
     public ResponseEntity<ApiResponse<MusicDto>> getMusicById(@PathVariable("id") Long id) throws JsonProcessingException {
     	MusicDto musicDto = musicService.getMusicById(id);
     	return ApiResponse.toOkResponseEntity(musicDto);
+    }
+    
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<MusicDto>>> getMusicList() {
+    	List<MusicDto> list = musicService.getMusicList();
+    	return ApiResponse.toOkResponseEntity(list);
     }
  	
 }

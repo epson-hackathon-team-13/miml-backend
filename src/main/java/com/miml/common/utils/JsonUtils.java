@@ -1,5 +1,6 @@
 package com.miml.common.utils;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -21,12 +22,12 @@ public class JsonUtils {
     }
     
     // List<Long> -> JSON String
-    public static String longListToJson(List<Long> list) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(list);
+    public static String longListToJson(List<String> list) throws JsonProcessingException {
+        return String.join(",",list);
     }
 
     // JSON String -> List<Long>
-    public static List<Long> jsonToLongList(String json) throws JsonProcessingException {
-        return objectMapper.readValue(json, new TypeReference<List<Long>>() {});
+    public static List<String> jsonToLongList(String json) throws JsonProcessingException {
+        return Arrays.asList(json.split(","));
     }
 }

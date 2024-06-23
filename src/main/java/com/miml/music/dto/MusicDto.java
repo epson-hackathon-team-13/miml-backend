@@ -26,23 +26,23 @@ public class MusicDto {
 
     private String imageUrl;
     
-    private List<String> lylicKr;
+    private String lyricKr;
 
-    private List<String> lylicEn;
+    private String lyricEn;
 
-    private List<Long> startTime;
+    private List<String> startTime;
 
-    private List<String> lyricKrPro;
+    private String lyricKrPro;
 
     @Builder
-	public MusicDto(Gender gender, String artist, String title, String imageUrl, List<String> lylicKr,
-			List<String> lylicEn, List<Long> startTime, List<String> lyricKrPro) {
+	public MusicDto(Gender gender, String artist, String title, String imageUrl, String lyricKr,
+			String lyricEn, List<String> startTime, String lyricKrPro) {
 		this.gender = gender;
 		this.artist = artist;
 		this.title = title;
 		this.imageUrl = imageUrl;
-		this.lylicKr = lylicKr;
-		this.lylicEn = lylicEn;
+		this.lyricKr = lyricKr;
+		this.lyricEn = lyricEn;
 		this.startTime = startTime;
 		this.lyricKrPro = lyricKrPro;
 	}
@@ -60,10 +60,10 @@ public class MusicDto {
                  .artist(this.artist)
                  .title(this.title)
                  .imageUrl(this.imageUrl)
-                 .lylicKr(stringArrToString(this.lylicKr))
-                 .lylicEn(stringArrToString(this.lylicEn))
+                 .lyricKr(this.lyricKr)
+                 .lyricEn(this.lyricEn)
                  .startTime(JsonUtils.longListToJson(this.startTime))
-                 .lyricKrPro(stringArrToString(this.lyricKrPro))
+                 .lyricKrPro(this.lyricKrPro)
                  .build();
     } 
 

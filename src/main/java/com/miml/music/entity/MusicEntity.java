@@ -51,11 +51,11 @@ public class MusicEntity {
 	
     @NotNull
     @Column(length = 4096)
-	private String lylicKr;
+	private String lyricKr;
 	
     @NotNull
     @Column(length = 4096)
-	private String lylicEn;
+	private String lyricEn;
 	
     @NotNull
     @Column(length = 1024)
@@ -69,14 +69,14 @@ public class MusicEntity {
 
     @Builder
 	public MusicEntity(Long id, @NotNull Gender gender, @NotNull @Size(max = 50) String artist,
-			@NotNull @Size(max = 50) String title, @NotNull String lylicKr, @NotNull String lylicEn,
+			@NotNull @Size(max = 50) String title, @NotNull String lyricKr, @NotNull String lyricEn,
 			@NotNull String startTime, String lyricKrPro, @Size(max = 50) String imageUrl) {
 		this.id = id;
 		this.gender = gender;
 		this.artist = artist;
 		this.title = title;
-		this.lylicKr = lylicKr;
-		this.lylicEn = lylicEn;
+		this.lyricKr = lyricKr;
+		this.lyricEn = lyricEn;
 		this.startTime = startTime;
 		this.lyricKrPro = lyricKrPro;
 		this.imageUrl = imageUrl;
@@ -94,12 +94,12 @@ public class MusicEntity {
 		this.title = title;
 	}
 
-	public void setLylickr(String lylicKr) {
-		this.lylicKr = lylicKr;
+	public void setLyrickr(String lyricKr) {
+		this.lyricKr = lyricKr;
 	}
 
-	public void setLylicEn(String lylicEn) {
-		this.lylicEn = lylicEn;
+	public void setLyricEn(String lyricEn) {
+		this.lyricEn = lyricEn;
 	}
 
 	public void setStartTime(String startTime) {
@@ -124,10 +124,10 @@ public class MusicEntity {
                 .artist(this.artist)
                 .title(this.title)
                 .imageUrl(this.imageUrl)
-                .lylicKr(stringToStringArr(this.lylicKr))
-                .lylicEn(stringToStringArr(this.lylicEn))
+                .lyricKr(this.lyricKr)
+                .lyricEn(this.lyricEn)
                 .startTime(JsonUtils.jsonToLongList(this.startTime))
-                .lyricKrPro(stringToStringArr(this.lyricKrPro))
+                .lyricKrPro(this.lyricKrPro)
 				.build();
 	}
 
