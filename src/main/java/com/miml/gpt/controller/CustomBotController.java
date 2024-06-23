@@ -1,7 +1,6 @@
 package com.miml.gpt.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +15,7 @@ import com.miml.gpt.dto.ChatGPTResponse;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/bot")
+@RequestMapping("/api/gpt")
 public class CustomBotController {
 
     private String model = "gpt-3.5-turbo";

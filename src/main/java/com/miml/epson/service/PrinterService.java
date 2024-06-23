@@ -1,16 +1,20 @@
 package com.miml.epson.service;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.miml.epson.api.client.EpsonApiClient;
 import com.miml.epson.api.endPoint.EpsonApiEndPoint;
 import com.miml.epson.api.properties.PrintingProperties;
-import com.miml.epson.dto.AuthenticationDto;
+import com.miml.epson.dto.PrinterDto.PrinterSettingReqDto;
+import com.miml.epson.dto.PrinterDto.PrinterSettingResDto;
 import com.miml.epson.entity.PrinterEntity;
 import com.miml.epson.entity.TokenEntity;
 import com.miml.epson.repository.PrinterRepository;
@@ -18,7 +22,7 @@ import com.miml.epson.repository.TokenRepository;
 
 @Service
 public class PrinterService {
-	
+
 	private final TokenRepository tokenRepository;
     private final PrinterRepository printerRepository;
     private final PrintingProperties printingProperties;
@@ -36,45 +40,50 @@ public class PrinterService {
 		this.epsonApiClient = epsonApiClient;
 	}
 	
-
-	public void authenticate(AuthenticationDto authenticationDto) {
+	ObjectMapper objectMapper = new ObjectMapper();
+    
+	public PrinterSettingResDto createPrintJob(PrinterSettingReqDto settingReqDto) throws JsonProcessingException {
 		
 		String host = printingProperties.getHostName();
-		String endPoint = EpsonApiEndPoint.AUTHENTICATION;
+		String subjectId = settingReqDto.getSubjectId();
+		String endPoint = EpsonApiEndPoint.PRINT_SETTING.replace("{device_id}", subjectId);
 		String url = "https://" + host + endPoint;
-		String Authorization = "Basic " + printingProperties.getAuth();
-
-		MultiValueMap<String, String> formData = new LinkedMultiValueMap<String, String>();
-        formData.add("grant_type", authenticationDto.getGrant_type());
-        formData.add("username", authenticationDto.getUsername());
-        formData.add("password", authenticationDto.getPassword());
-
+		
+		Optional<TokenEntity> optional = tokenRepository.findBySubjectId(subjectId);
+		
+		optional.orElseThrow(() -> new IllegalArgumentException("TokenEntity not found for subjectId: " + subjectId));
+		TokenEntity tokenEntity = optional.get();
+		
+		// header
 		Consumer<HttpHeaders> requestHeader = httpHeaders -> {
-		    httpHeaders.add("Authorization", Authorization);
-		    httpHeaders.add("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+			httpHeaders.add("Authorization", "Bearer " + tokenEntity.getAccessToken());
+		    httpHeaders.add("Content-Type", "application/json;charset=utf-8");
 		};
 		
-		TokenEntity tokenEntity = epsonApiClient.post(url, formData, TokenEntity.class, requestHeader);
-		tokenEntity.setUsername(authenticationDto.getUsername());
-		
-		tokenRepository.save(tokenEntity);
-		
-	} 
+        // data
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectNode objectNode = objectMapper.createObjectNode();
 
-    public PrinterEntity createPrintJob(String deviceId, String accessToken) {
-        // 인쇄 작업 생성 및 PrinterJob 저장
-        // WebClient를 사용하여 HTTP 요청을 보냄
-        String jobUri = "https://xxxx.xxxxx.xxx/api/1/printing/printers/" + deviceId + "/jobs";
-        PrinterEntity printerJob = new PrinterEntity();
-        // 예제 코드로 실제 요청을 생략합니다.
-        printerJob.setJobId("exampleJobId");
-        printerJob.setUploadUri("https://xxxx.xxxxx.xxx/uploadUri");
-        printerJob.setFileName("SampleDoc.pdf");
-        printerJob.setStatus("CREATED");
+        // settingReqDto에서 필요한 값만 추출하여 설정
+        objectNode.put("job_name", settingReqDto.getJobName());
+        objectNode.put("print_mode", settingReqDto.getPrintMode());
 
-//        printerJobRepository.save(printerJob);
-        return printerJob;
-    }
+        // ObjectNode를 JSON 문자열로 변환
+        String jsonString = objectMapper.writeValueAsString(objectNode);
+
+        // JSON 문자열을 UTF-8로 인코딩
+        byte[] data = jsonString.getBytes(StandardCharsets.UTF_8);
+		PrinterEntity printerEntity = epsonApiClient.post(url, data, PrinterEntity.class, requestHeader);
+		
+		printerRepository.save(printerEntity);
+		
+		PrinterSettingResDto settingResDto = new PrinterSettingResDto();
+				
+		settingResDto.setJobId(printerEntity.getJobId());
+		settingResDto.setUploadUrl(printerEntity.getUploadUri());
+		
+     	return settingResDto;
+	}
 
     public void uploadPrintFile(String uploadUri, byte[] fileData) {
         // 파일 업로드 로직 구현
@@ -85,6 +94,24 @@ public class PrinterService {
         // 인쇄 작업 실행 로직 구현
         // WebClient를 사용하여 HTTP 요청을 보냄
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

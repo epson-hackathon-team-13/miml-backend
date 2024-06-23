@@ -1,5 +1,7 @@
 package com.miml.epson.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,8 +19,10 @@ public class PrinterEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonProperty("id")
     private String jobId;
     
+    @JsonProperty("upload_uri")
     private String uploadUri;
     
     private String fileName;

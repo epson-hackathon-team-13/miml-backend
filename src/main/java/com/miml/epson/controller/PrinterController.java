@@ -1,15 +1,14 @@
 package com.miml.epson.controller;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.miml.common.api.ApiResponse;
-import com.miml.common.api.ApiResponseEmptyBody;
-import com.miml.epson.dto.AuthenticationDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.miml.epson.dto.PrinterDto;
+import com.miml.epson.dto.PrinterDto.PrinterSettingResDto;
 import com.miml.epson.entity.PrinterEntity;
 import com.miml.epson.service.PrinterService;
 
@@ -23,17 +22,10 @@ public class PrinterController {
 		this.printerService = printerService;
 	}
 
-	@PostMapping("/authenticate")
-    public ResponseEntity<ApiResponse<ApiResponseEmptyBody>> authenticate(@RequestBody AuthenticationDto authenticationDto) {
-		
-		printerService.authenticate(authenticationDto);
-		
-		return ApiResponse.toOkResponseEntity();
-    };
-
-    @PostMapping("/createJob")
-    public PrinterEntity createPrintJob(@RequestParam String deviceId, @RequestParam String accessToken) {
-        return printerService.createPrintJob(deviceId, accessToken);
+    @PostMapping("/setting")
+    public PrinterSettingResDto createPrintJob(@RequestBody PrinterDto.PrinterSettingReqDto settingReqDto) throws JsonProcessingException {
+    	PrinterDto.PrinterSettingResDto settingResDto = printerService.createPrintJob(settingReqDto);
+    	return settingResDto;
     }
 
     @PostMapping("/uploadFile")
