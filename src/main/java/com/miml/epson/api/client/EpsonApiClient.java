@@ -22,7 +22,8 @@ public class EpsonApiClient {
 	public <T> T get(
 			String url,
 			Class<T> responseDtoClass,
-			Map<String, String> params
+			Map<String, String> params,
+			Consumer<HttpHeaders> httpHeaders
 			) {
 		
 		// 파리미터 셋팅
@@ -36,25 +37,24 @@ public class EpsonApiClient {
                 .build()
                 .toString();
 		
-		// 헤더 셋팅
-		String Authorization = "Basic " + "";
-		Consumer<HttpHeaders> headers =  httpHeaders -> {
-            httpHeaders.add("Authorization", Authorization);
-            httpHeaders.add("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-        };
-		
         return webClient
         		.get()
         		.uri(requestUrl)
-        		.headers(headers)
+        		.headers(httpHeaders)
                 .retrieve()
                 .bodyToMono(responseDtoClass)
                 .block();
     }
 
-    public <T, V> T post(String url, V requestDto, Class<T> responseDtoClass) {
+    public <T, V> T post(
+    		String url, 
+    		V requestDto, 
+    		Class<T> responseDtoClass, 
+    		Consumer<HttpHeaders> httpHeaders
+    		) {
         return webClient.post()
                 .uri(url)
+                .headers(httpHeaders)
                 .bodyValue(requestDto)
                 .retrieve()
                 .bodyToMono(responseDtoClass)

@@ -68,10 +68,4 @@ public class EpsonApiEndPoint {
 		 return requestUrl;
 	 }
 	 
-	 public String getAuth() {
-		 String clientId = printingProperties.getClientId();
-		 String secret = printingProperties.getSecret();
-		 return Base64.getEncoder().encodeToString((clientId + ":" + secret).getBytes(StandardCharsets.UTF_8));
-	 }
-
 }

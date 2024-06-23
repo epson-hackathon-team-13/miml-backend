@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.miml.epson.entity.PrinterJob;
+import com.miml.epson.entity.TokenInfo;
 import com.miml.epson.repository.PrinterJobRepository;
 
 @Service
@@ -39,4 +40,15 @@ public class PrinterJobService {
         // 인쇄 작업 실행 로직 구현
         // WebClient를 사용하여 HTTP 요청을 보냄
     }
+
+	public TokenInfo authenticate(String deviceId) {
+//		
+//		String Authorization = "Basic " + printingProperties.getAuth();
+//		Consumer<HttpHeaders> requestHeader = httpHeaders -> {
+//            httpHeaders.add("Authorization", Authorization);
+//            httpHeaders.add("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+//        };
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -2,6 +2,8 @@ package com.miml.security.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.miml.common.entity.BaseTimeEntity;
+import com.miml.user.entity.UserEntity;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

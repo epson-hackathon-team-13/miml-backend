@@ -1,6 +1,5 @@
 package com.miml.epson.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,21 +9,20 @@ import org.springframework.web.bind.annotation.RestController;
 import com.miml.epson.entity.PrinterJob;
 import com.miml.epson.entity.TokenInfo;
 import com.miml.epson.service.PrinterJobService;
-import com.miml.epson.service.TokenService;
 
 @RestController
 @RequestMapping("/api/printer")
 public class PrinterJobController {
-
-    @Autowired
-    private TokenService tokenService;
-
-    @Autowired
+	
     private PrinterJobService printerService;
 
-    @PostMapping("/authenticate")
+    public PrinterJobController(PrinterJobService printerService) {
+		this.printerService = printerService;
+	}
+
+	@PostMapping("/authenticate")
     public TokenInfo authenticate(@RequestParam String deviceId) {
-        return tokenService.authenticate(deviceId);
+        return printerService.authenticate(deviceId);
     }
 
     @PostMapping("/createJob")

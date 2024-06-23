@@ -7,7 +7,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.miml.security.entity.UserEntity;
+import com.miml.user.entity.UserEntity;
 
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {

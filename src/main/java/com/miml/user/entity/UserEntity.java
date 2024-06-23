@@ -1,4 +1,4 @@
-package com.miml.security.entity;
+package com.miml.user.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -9,6 +9,8 @@ import lombok.Getter;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Set;
+
+import com.miml.security.entity.AuthorityEntity;
 
 @Entity
 @Getter
