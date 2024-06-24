@@ -50,6 +50,7 @@ public class TokenService {
 		
 		TokenEntity tokenEntity = epsonApiClient.post(url, formData, TokenEntity.class, requestHeader);
 		tokenEntity.setUsername(authenticationDto.getUsername());
+		
 		tokenRepository.save(tokenEntity);
 		
 		PrinterDto printerDto = new PrinterDto();

@@ -1,5 +1,6 @@
 package com.miml.epson.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -7,7 +8,10 @@ import lombok.Getter;
 public class AuthenticationDto {
 
 	private String grant_type = "password";
+	
+	@Schema(description = "프린터기의 E-Mail 주소 {device_id}")
 	private String username;
+	
 	private String password = "";
 	
 	public AuthenticationDto() {}

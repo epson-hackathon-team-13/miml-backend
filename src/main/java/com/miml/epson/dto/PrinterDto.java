@@ -13,7 +13,26 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PrinterDto {
 	
+	@Schema(description = "프린터 이메일")
+	private String userName;
+	
+	@Schema(description = "Epson Connect로 발급받은 Device ID 값")
 	private String subjectId;
+	
+	@Schema(description = "작업 별칭")
+	private String jobName;
+	
+	@Schema(description = "문서, 사진 모드")
+    private String printMode;
+	
+	@Schema(description = "인쇄 설정 개체, 지정하지 않으면 기본 설정 적용")
+	private PrintSettingDto printSettingDto;
+	
+	@Schema(description = "생성된 인쇄 작업의 인쇄 작업 ID")
+	private String jobId;
+	
+	@Schema(description = "인쇄할 파일을 업로드하기 위한 URL")
+	private String uploadUrl;
 	
 	@Getter
 	@Setter
