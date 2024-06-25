@@ -15,7 +15,7 @@ import com.miml.epson.dto.PrinterDto.PrinterSettingResDto;
 import com.miml.epson.service.PrinterService;
 
 @RestController
-@RequestMapping("/api/printer")
+@RequestMapping("/api/epson")
 public class PrinterController {
 	
     private PrinterService printerService;
@@ -30,11 +30,18 @@ public class PrinterController {
     	return settingResDto;
     }
 	
-    @PostMapping("/uploadFile")
+    @PostMapping("/print")
     public ResponseEntity<ApiResponse<String>> uploadPrintFile(
-    		@RequestPart("file") MultipartFile file,
-    		@RequestPart("printerDto") PrinterDto printerDto
+            @RequestPart("file") MultipartFile file
     		) throws Exception {
+    	
+    	PrinterDto printerDto = new PrinterDto();
+    	printerDto.setUserName("vyg9426520eip4@print.epsonconnect.com");
+    	printerDto.setJobName("TestSample2");
+    	printerDto.setPrintMode("document");
+    	printerDto.setSubjectId("5f3356c9461d481582719d5304d9603d");
+    	
+    	
     	printerService.uploadPrintFile(printerDto, file);
         return ApiResponse.toOkResponseEntity("Print job executed successfully.");
     }

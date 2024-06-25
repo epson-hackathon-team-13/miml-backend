@@ -21,7 +21,6 @@ import com.miml.epson.api.properties.PrintingProperties;
 import com.miml.epson.dto.PrinterDto;
 import com.miml.epson.dto.PrinterDto.PrinterSettingReqDto;
 import com.miml.epson.dto.PrinterDto.PrinterSettingResDto;
-import com.miml.epson.entity.PrinterEntity;
 import com.miml.epson.entity.TokenEntity;
 import com.miml.epson.repository.PrinterRepository;
 import com.miml.epson.repository.TokenRepository;
@@ -75,16 +74,17 @@ public class PrinterService {
 
 		// JSON 문자열을 UTF-8로 인코딩
 		byte[] data = jsonString.getBytes(StandardCharsets.UTF_8);
-		PrinterEntity printerEntity = epsonApiClient.post(url, data, PrinterEntity.class, requestHeader);
+		
+		// settingPrint 
+		PrinterSettingResDto printerSettingResDto = epsonApiClient.post(url, data, PrinterSettingResDto.class, requestHeader);
+		
+//		PrinterEntity printerEntity = PrinterEntity.builder()
+//				.jobId(printerSettingResDto.getId())
+//				.uploadUri(printerSettingResDto.getUploadUri())
+//				.build();		
+//		printerRepository.save(printerEntity);
 
-		printerRepository.save(printerEntity);
-
-		PrinterSettingResDto settingResDto = new PrinterSettingResDto();
-
-		settingResDto.setJobId(printerEntity.getJobId());
-		settingResDto.setUploadUrl(printerEntity.getUploadUri());
-
-		return settingResDto;
+		return printerSettingResDto;
 	}
 
 	public void uploadPrintFile(PrinterDto printerDto, MultipartFile file) throws Exception {
@@ -106,34 +106,30 @@ public class PrinterService {
         // Setting
         PrinterSettingResDto printerSettingResDto = settingPrint(printerSettingReqDto);
         
-        String jobId = (String) printerSettingResDto.getJobId();
-        String uploadUri = (String) printerSettingResDto.getUploadUrl();
-        
         File localFile = convertToFile(file);
-        
         // upload
-        uploadPrintFile(uploadUri, localFile);
+        uploadPrintFile(printerSettingResDto.getUploadUri(), localFile);
 
         // print
-        executePrint(accessToken, subjectId, jobId);
+        executePrint(accessToken, subjectId, printerSettingResDto.getId());
     }
 
 
 	private void uploadPrintFile(String uploadUri, File file) throws IOException {
-	    String fileName = "1" + getFileExtension(file.getName());
-	    String url = EpsonApiEndPoint.UPLOAD_PRINT_FILE.replace("{upload_uri}", uploadUri).replace("{extension}", getFileExtension(fileName));
+		String fileName = "1" + getFileExtension(file.getName());
+		String url = uploadUri + "&File=" + fileName;
 
-	    Consumer<HttpHeaders> requestHeader = httpHeaders -> {
-	        httpHeaders.add("Content-Length", String.valueOf(file.length()));
-	        httpHeaders.add("Content-Type", "application/octet-stream");
-	    };
+		Consumer<HttpHeaders> requestHeader = httpHeaders -> {
+			httpHeaders.add("Content-Length", String.valueOf(file.length()));
+			httpHeaders.add("Content-Type", "application/octet-stream");
+		};
 
-	    byte[] fileData;
-	    try (FileInputStream fis = new FileInputStream(file)) {
-	        fileData = fis.readAllBytes();
-	    }
+		byte[] fileData;
+		try (FileInputStream fis = new FileInputStream(file)) {
+			fileData = fis.readAllBytes();
+		}
 
-	    Object object =  epsonApiClient.post(url, fileData, Object.class, requestHeader);
+		Object object = epsonApiClient.post(url, fileData, Object.class, requestHeader);
 	}
 
 	private void executePrint(String accessToken, String subjectId, String jobId) throws JsonProcessingException {
