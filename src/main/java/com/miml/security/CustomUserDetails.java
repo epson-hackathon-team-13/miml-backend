@@ -57,4 +57,8 @@ public class CustomUserDetails implements UserDetails {
     public boolean isEnabled() {
         return userEntity.isEnabled();
     }
+    
+    public UserEntity getUser() {
+    	return this.userEntity;
+    } 
 }

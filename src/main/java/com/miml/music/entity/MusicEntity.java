@@ -21,17 +21,16 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Getter
 @Entity
+@Getter
+@NoArgsConstructor
 @Table(name = "music")
 public class MusicEntity {
 
 	@Serial
 	private static final long serialVersionUID = 1L;
-
-	public MusicEntity() {
-	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "music_seq")

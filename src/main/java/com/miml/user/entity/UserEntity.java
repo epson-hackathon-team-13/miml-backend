@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 import com.miml.security.entity.AuthorityEntity;
+import com.miml.user.dto.UserDto;
 
 @Entity
 @Getter
@@ -116,5 +117,17 @@ public class UserEntity implements Serializable {
     public void setCredentialsNonExpired(boolean credentialsNonExpired) {
         this.credentialsNonExpired = credentialsNonExpired;
     }
+    
+	public static UserDto toDto(UserEntity userEntity) {
+		UserDto userDto = UserDto.builder()
+				.email(userEntity.getEmail())
+				.username(userEntity.getUsername())
+				.nickname(userEntity.getNickname())
+				.language(userEntity.getLanguage())
+				.level(userEntity.getLevel())
+				.build();
+		
+		return userDto;
+	}
 
 }
