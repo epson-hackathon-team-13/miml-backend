@@ -27,6 +27,6 @@ public class UserDto {
 	private String language;
 
 	@Schema(description = "레벨")
-	private Long level;
+	private Integer level;
 	
 }

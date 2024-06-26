@@ -11,6 +11,7 @@ import com.miml.music.repository.MusicRepository;
 import com.miml.security.CustomUserDetails;
 import com.miml.user.entity.UserEntity;
 import com.miml.word.dto.WordDto;
+import com.miml.word.dto.WordPostReqDto;
 import com.miml.word.entity.WordEntity;
 import com.miml.word.repository.WordRepository;
 
@@ -21,7 +22,11 @@ public class WordService {
 	private final MusicRepository musicRepository;
 	private final PrincipalUtil principalUtil;
 	
-	public WordService(WordRepository wordRepository, MusicRepository musicRepository, PrincipalUtil principalUtil) {
+	public WordService(
+			WordRepository wordRepository, 
+			MusicRepository musicRepository, 
+			PrincipalUtil principalUtil
+			) {
 		this.wordRepository = wordRepository;
 		this.musicRepository = musicRepository;
 		this.principalUtil = principalUtil;
@@ -47,7 +52,7 @@ public class WordService {
 		return wordDtos;
 	}
 
-	public void addWord(WordDto wordDto) {
+	public void addWord(WordPostReqDto wordPostReqDto) {
 		CustomUserDetails customUserDetails =  (CustomUserDetails) principalUtil.getPrincipal();
 		
 		UserEntity userEntity = customUserDetails.getUser();
@@ -57,13 +62,13 @@ public class WordService {
 		}
 		
 		MusicEntity musicEntity = MusicEntity.builder()
-				.id(wordDto.getMusicId())
+				.id(wordPostReqDto.getMusicId())
 				.build();
 	
 		WordEntity wordEntity = WordEntity.builder()
-				.word(wordDto.getWord())
-				.transWord(wordDto.getTransWord())
-				.description(wordDto.getDescription())
+				.word(wordPostReqDto.getWord())
+				.transWord(wordPostReqDto.getTransWord())
+				.description(wordPostReqDto.getDescription())
 				.userEntity(userEntity)
 				.musicEntity(musicEntity)
 				.build();

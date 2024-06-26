@@ -2,7 +2,9 @@ package com.miml.user.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,7 +14,6 @@ import com.miml.user.dto.UserDto;
 import com.miml.user.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping("/api/user")
@@ -32,8 +33,8 @@ public class UserController {
 	} 
 
 	@Operation(summary = "email로 유저 정보 조회")
-	@GetMapping
-	public ResponseEntity<ApiResponse<UserDto>> getUser(String email) {
+	@GetMapping("/{email}")
+	public ResponseEntity<ApiResponse<UserDto>> getUser(@PathVariable("email") String email) {
 		UserDto userDto = userService.getUser(email);
 		return ApiResponse.toOkResponseEntity(userDto);
 	}

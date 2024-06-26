@@ -50,6 +50,7 @@ public class UserService {
         		.username(signUpDto.getUsername())
         		.nickname(signUpDto.getNickname())
         		.language(signUpDto.getLanguage())
+        		.level(signUpDto.getLevel())
         		.accountNonExpired(true)
     	        .accountNonLocked(true)
     	        .credentialsNonExpired(true)

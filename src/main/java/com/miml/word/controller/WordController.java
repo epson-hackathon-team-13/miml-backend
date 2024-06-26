@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.miml.common.api.ApiResponse;
 import com.miml.common.api.ApiResponseEmptyBody;
 import com.miml.word.dto.WordDto;
+import com.miml.word.dto.WordPostReqDto;
 import com.miml.word.service.WordService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,9 +35,9 @@ public class WordController {
 
 	@Operation(summary = "로그인된 사용자 단어장에 단어 추가")
 	@PostMapping
-	public ResponseEntity<ApiResponse<ApiResponseEmptyBody>> addWord(WordDto wordDto) {
+	public ResponseEntity<ApiResponse<ApiResponseEmptyBody>> addWord(WordPostReqDto wordPostReqDto) {
 		
-		wordService.addWord(wordDto);
+		if(wordPostReqDto != null) wordService.addWord(wordPostReqDto);
 		
 		return ApiResponse.toOkResponseEntity();
 	}

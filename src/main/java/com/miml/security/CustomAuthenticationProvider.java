@@ -7,8 +7,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.miml.user.entity.UserEntity;
-
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
@@ -29,15 +27,14 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		String email = authentication.getName();
         String password = (String) authentication.getCredentials();
         
-        UserEntity entity = (UserEntity) userDetailsService.loadUserByUsername(email);
+        CustomUserDetails customUserDetails = userDetailsService.loadUserByUsername(email);
+       
 
-        if(!passwordEncoder.matches(password, entity.getPassword())) {
+        if(!passwordEncoder.matches(password,  customUserDetails.getPassword())) {
             throw new BadCredentialsException("Invalid Password");
         }
-        
-        CustomUserDetails customUserDetails = new CustomUserDetails(entity);
 
-        return new CustomAuthenticationToken(entity, null, customUserDetails.getAuthorities());
+        return new CustomAuthenticationToken(customUserDetails.getUser(), null, customUserDetails.getAuthorities());
     }
 
     @Override

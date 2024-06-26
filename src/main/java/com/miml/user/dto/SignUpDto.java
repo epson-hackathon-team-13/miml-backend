@@ -30,6 +30,6 @@ public class SignUpDto {
 	private String language;
 
 	@Schema(description = "레벨")
-	private Long level;
+	private Integer level;
 	
 }

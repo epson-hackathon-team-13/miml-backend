@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -13,8 +14,9 @@ import java.util.Set;
 import com.miml.authority.entity.AuthorityEntity;
 import com.miml.user.dto.UserDto;
 
-@Entity
 @Getter
+@Entity
+@NoArgsConstructor
 @Table(name = "user")
 public class UserEntity implements Serializable {
 
@@ -44,7 +46,7 @@ public class UserEntity implements Serializable {
     @Size(max = 256)
     private String language;
     @NotNull
-    private Long level;
+    private Integer level;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL , orphanRemoval = true)
     private Set<AuthorityEntity> authorities;
@@ -59,7 +61,7 @@ public class UserEntity implements Serializable {
     private boolean credentialsNonExpired;
 
     @Builder
-    public UserEntity(Long id, String email, String password, String username, String nickname, String language, Long level, Set<AuthorityEntity> authorities, boolean enabled, boolean accountNonExpired, boolean accountNonLocked, boolean credentialsNonExpired) {
+    public UserEntity(Long id, String email, String password, String username, String nickname, String language, Integer level, Set<AuthorityEntity> authorities, boolean enabled, boolean accountNonExpired, boolean accountNonLocked, boolean credentialsNonExpired) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -94,7 +96,7 @@ public class UserEntity implements Serializable {
         this.language = language;
     }
 
-    public void setLevel(Long level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 
