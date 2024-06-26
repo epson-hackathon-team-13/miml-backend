@@ -42,8 +42,9 @@ dependencies {
 	annotationProcessor("org.projectlombok:lombok")
 
 	// Swagger dependencies
-	implementation("org.springdoc:springdoc-openapi-ui:1.7.0")
-	implementation("org.springdoc:springdoc-openapi-webmvc-core:1.7.0")
+	// implementation("org.springdoc:springdoc-openapi-ui:1.7.0")
+	// implementation("org.springdoc:springdoc-openapi-webmvc-core:1.7.0")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
 
 	// Spring WebFlux
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
