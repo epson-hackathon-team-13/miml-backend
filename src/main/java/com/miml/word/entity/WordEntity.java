@@ -3,6 +3,7 @@ package com.miml.word.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.miml.music.entity.MusicEntity;
 import com.miml.user.entity.UserEntity;
+import com.miml.word.dto.WordDto;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -48,7 +49,6 @@ public class WordEntity {
 	@Builder
 	public WordEntity(Long id, String word, String transWord, String description, @NotNull MusicEntity musicEntity,
 			@NotNull UserEntity userEntity) {
-		super();
 		this.id = id;
 		this.word = word;
 		this.transWord = transWord;
@@ -78,4 +78,18 @@ public class WordEntity {
 	public void setUserEntity(UserEntity userEntity) {
 		this.userEntity = userEntity;
 	}
+	
+	public WordDto toDto() {
+        return WordDto.builder()
+            .word(this.word)
+            .transWord(this.transWord)
+            .description(this.description)
+            .musicId(this.musicEntity != null ? this.musicEntity.getId() : null)
+            .userDto(this.userEntity != null ? UserEntity.toDto(this.userEntity) : null)
+            .gender(this.musicEntity != null ? this.musicEntity.getGender() : null)
+            .artist(this.musicEntity != null ? this.musicEntity.getArtist() : null)
+            .title(this.musicEntity != null ? this.musicEntity.getTitle() : null)
+            .imageUrl(this.musicEntity != null ? this.musicEntity.getImageUrl() : null)
+            .build();
+    }
 }

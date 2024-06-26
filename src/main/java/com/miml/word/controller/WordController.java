@@ -13,6 +13,8 @@ import com.miml.common.api.ApiResponseEmptyBody;
 import com.miml.word.dto.WordDto;
 import com.miml.word.service.WordService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/api/word")
 public class WordController {
@@ -23,14 +25,14 @@ public class WordController {
 		this.wordService = wordService;
 	}
 	
-	// @GetMapping
-	// public ResponseEntity<ApiResponse<List<WordDto>>> getWordList () {
-		
-	// 	List<WordDto> wordDtos = wordService.getWordList();
-	// 	return wordDtos;
-		
-	// }
+	@Operation(summary = "로그인된 사용자 단어장 조회")
+	@GetMapping
+	public ResponseEntity<ApiResponse<List<WordDto>>> getWordList () {
+		List<WordDto> wordDtos = wordService.getWordList();
+		return ApiResponse.toOkResponseEntity(wordDtos);
+	}
 
+	@Operation(summary = "로그인된 사용자 단어장에 단어 추가")
 	@PostMapping
 	public ResponseEntity<ApiResponse<ApiResponseEmptyBody>> addWord(WordDto wordDto) {
 		

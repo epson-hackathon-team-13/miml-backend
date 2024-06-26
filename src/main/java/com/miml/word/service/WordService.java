@@ -1,5 +1,8 @@
 package com.miml.word.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
 import com.miml.common.utils.PrincipalUtil;
@@ -18,11 +21,30 @@ public class WordService {
 	private final MusicRepository musicRepository;
 	private final PrincipalUtil principalUtil;
 	
-	
 	public WordService(WordRepository wordRepository, MusicRepository musicRepository, PrincipalUtil principalUtil) {
 		this.wordRepository = wordRepository;
 		this.musicRepository = musicRepository;
 		this.principalUtil = principalUtil;
+	}
+	
+
+	public List<WordDto> getWordList() {
+		
+		CustomUserDetails customUserDetails =  (CustomUserDetails) principalUtil.getPrincipal();
+		
+		UserEntity userEntity = customUserDetails.getUser();
+		
+		if(userEntity == null ) {
+			throw new IllegalStateException("사용자 정보 없음");
+		}
+		
+		List<WordEntity> wordEntities =  wordRepository.findByUserEntity(userEntity);
+		
+		List<WordDto> wordDtos = wordEntities.stream()
+                .map(WordEntity::toDto)
+                .collect(Collectors.toList());
+		
+		return wordDtos;
 	}
 
 	public void addWord(WordDto wordDto) {
@@ -47,7 +69,7 @@ public class WordService {
 				.build();
 		
 		wordRepository.save(wordEntity);
-		
 	}
+
 	
 }
