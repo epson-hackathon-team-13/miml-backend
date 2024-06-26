@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.miml.common.api.ApiResponse;
 import com.miml.ocr.service.OcrService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
@@ -22,6 +23,7 @@ public class OcrController {
         this.ocrService = ocrService;
     }
 
+    @Operation(summary = "Google Visioin API")
 	@PostMapping("/extract")
 	public ResponseEntity<ApiResponse<String>> extractText(@RequestPart("file") @Valid MultipartFile file) throws Exception {
 		
