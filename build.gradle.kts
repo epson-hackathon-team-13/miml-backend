@@ -53,7 +53,9 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-configuration-processor")
 
 	// google-cloud-vision - ocr
-	implementation("com.google.cloud:google-cloud-vision:3.41.0")
+	//  implementation("com.google.cloud:google-cloud-vision:3.41.0")
+	implementation(platform("com.google.cloud:libraries-bom:26.1.5"))
+	implementation("com.google.cloud:google-cloud-vision")
 
 	// JSON Web Token (JWT) dependencies
 	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
