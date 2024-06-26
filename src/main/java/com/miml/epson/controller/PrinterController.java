@@ -14,6 +14,8 @@ import com.miml.epson.dto.PrinterDto;
 import com.miml.epson.dto.PrinterDto.PrinterSettingResDto;
 import com.miml.epson.service.PrinterService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/api/epson")
 public class PrinterController {
@@ -24,12 +26,14 @@ public class PrinterController {
 		this.printerService = printerService;
 	}
 
+    @Operation(summary = "Epson - 프린트 옵션 셋팅 | step 2")
     @PostMapping("/setting")
     public PrinterSettingResDto settingPrint(@RequestBody PrinterDto.PrinterSettingReqDto settingReqDto) throws JsonProcessingException {
     	PrinterDto.PrinterSettingResDto settingResDto = printerService.settingPrint(settingReqDto);
     	return settingResDto;
     }
 	
+    @Operation(summary = "Epson - 프린트 출력 | step 2 ~ 4")
     @PostMapping("/print")
     public ResponseEntity<ApiResponse<String>> uploadPrintFile(
             @RequestPart("file") MultipartFile file

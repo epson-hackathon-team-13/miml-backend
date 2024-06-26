@@ -31,8 +31,6 @@ public class SecurityConfig{
     private final AuthenticationConfiguration authenticationConfiguration;
     private final CustomAccessDeniedHandler accessDeniedHandler;
 
-    
-    
     public SecurityConfig(
     		CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler,
 			CustomAuthenticationFailureHandler customAuthenticationFailureHandler,
@@ -59,11 +57,11 @@ public class SecurityConfig{
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
-//                        .requestMatchers("/api/**").authenticated()
+                        .requestMatchers("/api/**").authenticated()
                         .anyRequest().permitAll())
                 .addFilterBefore(ajaxAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(config -> config
-                        .authenticationEntryPoint(authenticationEntryPoint)
+						.authenticationEntryPoint(authenticationEntryPoint)
                         .accessDeniedHandler(accessDeniedHandler));
 
         return http.build();

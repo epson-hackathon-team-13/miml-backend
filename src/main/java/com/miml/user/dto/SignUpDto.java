@@ -12,10 +12,13 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto {
+public class SignUpDto {
 
 	@Schema(description = "이메일 (아이디)")
 	private String email;
+	
+	@Schema(description = "비밀번호")
+	private String password;
 	
 	@Schema(description = "이름")
 	private String username;

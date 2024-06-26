@@ -1,12 +1,17 @@
 package com.miml.epson.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.miml.user.entity.UserEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -44,10 +49,17 @@ public class TokenEntity {
 
     @JsonProperty("subject_id")
     private String subjectId;
+    
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull // FK
+    @JoinColumn(name = "user_id") // FK
+    @JsonIgnore
+    private UserEntity user;
 
     @Builder
-	public TokenEntity(Long id, @NotNull String username, String tokenType, String accessToken,
-			int expiresIn, String refreshToken, String subjectType, String subjectId) {
+	public TokenEntity(Long id, @NotNull String username, String tokenType, String accessToken, int expiresIn,
+			String refreshToken, String subjectType, String subjectId, @NotNull UserEntity user) {
 		this.id = id;
 		this.username = username;
 		this.tokenType = tokenType;
@@ -56,6 +68,7 @@ public class TokenEntity {
 		this.refreshToken = refreshToken;
 		this.subjectType = subjectType;
 		this.subjectId = subjectId;
+		this.user = user;
 	}
 
 	public void setUsername(String username) {
@@ -84,6 +97,10 @@ public class TokenEntity {
 
 	public void setSubjectId(String subjectId) {
 		this.subjectId = subjectId;
+	}
+
+	public void setUser(UserEntity user) {
+		this.user = user;
 	}
 
 }

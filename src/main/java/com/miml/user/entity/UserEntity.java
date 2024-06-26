@@ -10,7 +10,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Set;
 
-import com.miml.security.entity.AuthorityEntity;
+import com.miml.authority.entity.AuthorityEntity;
 import com.miml.user.dto.UserDto;
 
 @Entity

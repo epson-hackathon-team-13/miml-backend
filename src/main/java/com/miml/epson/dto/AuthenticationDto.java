@@ -7,11 +7,13 @@ import lombok.Getter;
 @Getter
 public class AuthenticationDto {
 
+	@Schema(description = "고정 값 reqeust X")
 	private String grant_type = "password";
 	
 	@Schema(description = "프린터기의 E-Mail 주소 {device_id}")
 	private String username;
 	
+	@Schema(description = "고정 값 reqeust X")
 	private String password = "";
 	
 	public AuthenticationDto() {}

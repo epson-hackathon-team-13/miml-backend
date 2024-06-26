@@ -1,6 +1,5 @@
 package com.miml.gpt.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +11,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.miml.gpt.dto.ChatGPTRequest;
 import com.miml.gpt.dto.ChatGPTResponse;
 
+import io.swagger.v3.oas.annotations.Operation;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -24,11 +24,11 @@ public class CustomBotController {
 
     private final WebClient webClient;
 
-    @Autowired
     public CustomBotController(WebClient.Builder webClientBuilder) {
         this.webClient = webClientBuilder.baseUrl(apiURL).build();
     }
 
+    @Operation(summary = "Chat Gpt 요청")
     @GetMapping("/chat")
     public Mono<String> chat(@RequestParam(name = "prompt") String prompt) {
         ChatGPTRequest request = new ChatGPTRequest(model, prompt);
