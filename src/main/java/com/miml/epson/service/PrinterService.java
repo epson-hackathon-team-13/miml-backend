@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -15,15 +17,17 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.miml.common.utils.PrincipalUtil;
 import com.miml.epson.api.client.EpsonApiClient;
 import com.miml.epson.api.endPoint.EpsonApiEndPoint;
 import com.miml.epson.api.properties.PrintingProperties;
-import com.miml.epson.dto.PrinterDto;
-import com.miml.epson.dto.PrinterDto.PrinterSettingReqDto;
-import com.miml.epson.dto.PrinterDto.PrinterSettingResDto;
+import com.miml.epson.dto.PrinterSettingReqDto;
+import com.miml.epson.dto.PrinterSettingResDto;
 import com.miml.epson.entity.TokenEntity;
 import com.miml.epson.repository.PrinterRepository;
 import com.miml.epson.repository.TokenRepository;
+import com.miml.security.CustomUserDetails;
+import com.miml.user.entity.UserEntity;
 
 @Service
 public class PrinterService {
@@ -32,32 +36,69 @@ public class PrinterService {
 	private final PrinterRepository printerRepository;
 	private final PrintingProperties printingProperties;
 	private final EpsonApiClient epsonApiClient;
+	private final PrincipalUtil principalUtil;
 
-	public PrinterService(TokenRepository tokenRepository, PrinterRepository printerRepository,
-			PrintingProperties printingProperties, EpsonApiClient epsonApiClient) {
+	public PrinterService(
+			TokenRepository tokenRepository, 
+			PrinterRepository printerRepository,
+			PrintingProperties printingProperties, 
+			EpsonApiClient epsonApiClient,
+			PrincipalUtil principalUtil
+			) {
 		this.tokenRepository = tokenRepository;
 		this.printerRepository = printerRepository;
 		this.printingProperties = printingProperties;
 		this.epsonApiClient = epsonApiClient;
+		this.principalUtil = principalUtil;
 	}
 
 	ObjectMapper objectMapper = new ObjectMapper();
 
-	public PrinterSettingResDto settingPrint(PrinterSettingReqDto settingReqDto) throws JsonProcessingException {
+	public void uploadToExcute(String username, MultipartFile file) throws Exception {
+		// 로그인된 유저 정보 조회
+		CustomUserDetails customUserDetails =  (CustomUserDetails) principalUtil.getPrincipal();
+		UserEntity userEntity = customUserDetails.getUser();
+		
+		Optional<TokenEntity> optional = tokenRepository.findByUser_IdAndUsername(userEntity.getId(), username);
+		
+		optional.orElseThrow(() -> new IllegalArgumentException("사용자가 등록한 프린터가 아닙니다. printer email: " + username));
+		TokenEntity tokenEntity = optional.get();
+		
+		// 현재 시간
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        String formattedNow = now.format(formatter);
+		
+		String jobName = "BALLAGAIN" + userEntity.getId() + formattedNow;
+		String subjectId = tokenEntity.getSubjectId();
+		String accessToken = tokenEntity.getAccessToken();
+        
+        PrinterSettingReqDto printerSettingReqDto = new PrinterSettingReqDto();
+        printerSettingReqDto.setSubjectId(subjectId);
+        printerSettingReqDto.setJobName(jobName);
+        printerSettingReqDto.setPrintMode("document"); // pdf 고정
+
+        // Setting
+        PrinterSettingResDto printerSettingResDto = settingPrint(printerSettingReqDto, accessToken);
+        
+        File localFile = convertToFile(file);
+        // upload
+        uploadPrintFile(printerSettingResDto.getUploadUri(), localFile);
+
+        // print
+        executePrint(accessToken, subjectId, printerSettingResDto.getId());
+    }
+	
+	public PrinterSettingResDto settingPrint(PrinterSettingReqDto settingReqDto, String accessToken) throws JsonProcessingException {
 
 		String host = printingProperties.getHostName();
 		String subjectId = settingReqDto.getSubjectId();
 		String endPoint = EpsonApiEndPoint.PRINT_SETTING.replace("{device_id}", subjectId);
 		String url = "https://" + host + endPoint;
 
-		Optional<TokenEntity> optional = tokenRepository.findBySubjectId(subjectId);
-
-		optional.orElseThrow(() -> new IllegalArgumentException("TokenEntity not found for subjectId: " + subjectId));
-		TokenEntity tokenEntity = optional.get();
-
 		// header
 		Consumer<HttpHeaders> requestHeader = httpHeaders -> {
-			httpHeaders.add("Authorization", "Bearer " + tokenEntity.getAccessToken());
+			httpHeaders.add("Authorization", "Bearer " + accessToken);
 			httpHeaders.add("Content-Type", "application/json;charset=utf-8");
 		};
 
@@ -80,39 +121,13 @@ public class PrinterService {
 		
 //		PrinterEntity printerEntity = PrinterEntity.builder()
 //				.jobId(printerSettingResDto.getId())
+//				.
 //				.uploadUri(printerSettingResDto.getUploadUri())
 //				.build();		
 //		printerRepository.save(printerEntity);
 
 		return printerSettingResDto;
 	}
-
-	public void uploadPrintFile(PrinterDto printerDto, MultipartFile file) throws Exception {
-        String subjectId = printerDto.getSubjectId();
-        Optional<TokenEntity> optional = tokenRepository.findBySubjectId(subjectId);
-
-        if (!optional.isPresent()) {
-            throw new IllegalArgumentException("TokenEntity not found for subjectId: " + subjectId);
-        }
-
-        TokenEntity tokenEntity = optional.get();
-        String accessToken = tokenEntity.getAccessToken();
-        
-        PrinterSettingReqDto printerSettingReqDto = new PrinterSettingReqDto();
-        printerSettingReqDto.setSubjectId(subjectId);
-        printerSettingReqDto.setJobName(printerDto.getJobName());
-        printerSettingReqDto.setPrintMode(printerDto.getPrintMode());
-
-        // Setting
-        PrinterSettingResDto printerSettingResDto = settingPrint(printerSettingReqDto);
-        
-        File localFile = convertToFile(file);
-        // upload
-        uploadPrintFile(printerSettingResDto.getUploadUri(), localFile);
-
-        // print
-        executePrint(accessToken, subjectId, printerSettingResDto.getId());
-    }
 
 
 	private void uploadPrintFile(String uploadUri, File file) throws IOException {
