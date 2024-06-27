@@ -75,8 +75,6 @@ public class TokenService {
 		
 		return printerDto;
 		
-		// TODO: error handle / response setting
-		
 	}
 
 

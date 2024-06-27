@@ -50,7 +50,6 @@ public class TokenEntity {
     @JsonProperty("subject_id")
     private String subjectId;
     
-    
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull // FK
     @JoinColumn(name = "user_id") // FK
