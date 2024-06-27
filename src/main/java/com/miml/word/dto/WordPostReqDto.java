@@ -1,7 +1,5 @@
 package com.miml.word.dto;
 
-import com.miml.common.enums.Gender;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,17 +25,5 @@ public class WordPostReqDto {
 
 	@Schema(description = "음악 테이블 키 값")
 	private Long musicId;
-
-	@Schema(description = "아티스트 성별")
-	private Gender gender;
-
-	@Schema(description = "아티스트 이름")
-	private String artist;
-
-	@Schema(description = "음악 제목")
-	private String title;
-
-	@Schema(description = "이미지 URL")
-	private String imageUrl;
 	
 }

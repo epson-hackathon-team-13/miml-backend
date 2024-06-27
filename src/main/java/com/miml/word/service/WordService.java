@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.miml.common.api.ApiException;
+import com.miml.common.api.ErrorCode;
 import com.miml.common.utils.PrincipalUtil;
 import com.miml.music.entity.MusicEntity;
 import com.miml.music.repository.MusicRepository;
@@ -53,12 +55,15 @@ public class WordService {
 	}
 
 	public void addWord(WordPostReqDto wordPostReqDto) {
-		CustomUserDetails customUserDetails =  (CustomUserDetails) principalUtil.getPrincipal();
 		
+		CustomUserDetails customUserDetails =  (CustomUserDetails) principalUtil.getPrincipal();
+		if(customUserDetails == null) {
+			throw new ApiException(ErrorCode.UNAUTHORIZED);
+		}
 		UserEntity userEntity = customUserDetails.getUser();
 		
 		if(userEntity == null ) {
-			throw new IllegalStateException("사용자 정보 없음");
+			throw new ApiException(ErrorCode.BADCREDENTIAL);
 		}
 		
 		MusicEntity musicEntity = MusicEntity.builder()
