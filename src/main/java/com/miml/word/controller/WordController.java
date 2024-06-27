@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,7 +36,7 @@ public class WordController {
 
 	@Operation(summary = "로그인된 사용자 단어장에 단어 추가")
 	@PostMapping
-	public ResponseEntity<ApiResponse<ApiResponseEmptyBody>> addWord(WordPostReqDto wordPostReqDto) {
+	public ResponseEntity<ApiResponse<ApiResponseEmptyBody>> addWord(@RequestBody WordPostReqDto wordPostReqDto) {
 		
 		if(wordPostReqDto != null) wordService.addWord(wordPostReqDto);
 		
