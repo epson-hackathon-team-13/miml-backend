@@ -52,8 +52,12 @@ public class SecurityConfig{
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
-//                        .requestMatchers("/api/user/sign-up", "/api/login").permitAll() // 특정 URL에 permit 설정
-//                        .requestMatchers("/api/**").authenticated() // 다른 모든 URL은 인증 필요
+                        .requestMatchers(
+                        		"/api/user/sign-up",
+                        		"/api/login",
+                        		"/api/music"
+                        ).permitAll() // 특정 URL에 permit 설정
+                        .requestMatchers("/api/**").authenticated() // 다른 모든 URL은 인증 필요
                         .anyRequest().permitAll()) // 나머지 요청은 모두 permit
                 .addFilterBefore(ajaxAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(config -> config

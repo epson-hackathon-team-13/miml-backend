@@ -37,7 +37,7 @@ public class WordService {
 
 	public List<WordDto> getWordList() {
 		
-		CustomUserDetails customUserDetails =  (CustomUserDetails) principalUtil.getPrincipal();
+		CustomUserDetails customUserDetails = (CustomUserDetails) principalUtil.getPrincipal();
 		
 		UserEntity userEntity = customUserDetails.getUser();
 		
