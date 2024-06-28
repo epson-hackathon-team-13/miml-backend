@@ -26,9 +26,8 @@ public class OcrController {
     @Operation(summary = "Google Visioin API")
 	@PostMapping("/extract")
 	public ResponseEntity<ApiResponse<String>> extractText(@RequestPart("file") @Valid MultipartFile file) throws Exception {
-		
-		byte[] data = file.getBytes();
+    	byte[] data = file.getBytes();
 		String extractedText = ocrService.extractTextFromImage(data);
 		return ApiResponse.toOkResponseEntity(extractedText);
-	}
+    }
 }
