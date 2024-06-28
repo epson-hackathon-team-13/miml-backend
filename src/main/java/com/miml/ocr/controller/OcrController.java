@@ -23,7 +23,7 @@ public class OcrController {
         this.ocrService = ocrService;
     }
 
-    @Operation(summary = "Google Visioin API")
+    @Operation(summary = "Google Visioin API (OCR)")
 	@PostMapping("/extract")
 	public ResponseEntity<ApiResponse<String>> extractText(@RequestPart("file") @Valid MultipartFile file) throws Exception {
     	byte[] data = file.getBytes();
