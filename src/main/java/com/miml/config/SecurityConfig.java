@@ -55,7 +55,8 @@ public class SecurityConfig{
                         .requestMatchers(
                         		"/api/user/sign-up",
                         		"/api/login",
-                        		"/api/music"
+                        		"/api/music", 
+                        		"/api/ocr/**"
                         ).permitAll() // 특정 URL에 permit 설정
                         .requestMatchers("/api/**").authenticated() // 다른 모든 URL은 인증 필요
                         .anyRequest().permitAll()) // 나머지 요청은 모두 permit
